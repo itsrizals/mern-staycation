@@ -8,7 +8,8 @@ export default function MostPicked(props) {
       <div className="container-grid">
         {props.data.map((item, index) => {
           return (
-            <div key={`mostpicked-${index}`}
+            <div
+              key={`mostpicked-${index}`}
               className={`item column-4${index === 0 ? " row-2" : " row-1"}`}
             >
               <div className="card card-featured">
