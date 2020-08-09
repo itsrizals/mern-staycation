@@ -6,7 +6,7 @@ export default function Footer() {
   return (
     <footer className="container">
       <div className="row">
-        <div className="col-auto" style={{width: 350}}>
+        <div className="col-auto" style={{ width: 350 }}>
           <IconText />
           <p className="brand-tagline">
             We kaboom your beauty holiday instantly and memorable.
@@ -76,10 +76,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="row">
-          <div className="col text-center copyrights">
-            Copyright 2019 • All rights reserved • Staycation
-          </div>
+        <div className="col text-center copyrights">
+          Copyright 2019 • All rights reserved • Staycation
         </div>
+      </div>
     </footer>
   );
 }
