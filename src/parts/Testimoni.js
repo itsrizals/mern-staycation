@@ -6,8 +6,8 @@ import Button from "elements/Button";
 
 export default function Testimoni({ data }) {
   return (
-    <Fade bottom>
-      <section className="container">
+    <section className="container">
+      <Fade bottom delay={500}>
         <div className="row align-items-center">
           <div className="col-auto" style={{ marginRight: 60 }}>
             <div
@@ -52,7 +52,7 @@ export default function Testimoni({ data }) {
             </div>
           </div>
         </div>
-      </section>
-    </Fade>
+      </Fade>
+    </section>
   );
 }
