@@ -1,7 +1,5 @@
 import React from "react";
-
 import Fade from "react-reveal/Fade";
-
 import { InputText } from "elements/Form";
 
 export default function BookingInformation(props) {
@@ -15,7 +13,7 @@ export default function BookingInformation(props) {
               <div className="card">
                 <figure className="img-wrapper" style={{ height: 270 }}>
                   <img
-                    src={ItemDetails.imageUrls[0]}
+                    src={ItemDetails.imageUrls[0].url}
                     alt={ItemDetails.name}
                     className="img-cover"
                   />
@@ -33,7 +31,7 @@ export default function BookingInformation(props) {
                     <span>
                       ${+checkout.duration * ItemDetails.price} USD
                       <span className="text-gray-500"> per </span>
-                      {checkout.duration} {ItemDetails.unit}{" "}
+                      {checkout.duration} {ItemDetails.unit}{""}
                       {checkout.duration > 1 ? "s" : ""}
                     </span>
                   </div>

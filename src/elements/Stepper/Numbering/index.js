@@ -1,6 +1,6 @@
 import React from "react";
 import propTypes from "prop-types";
-import Fade from "react-reveal";
+import Fade from "react-reveal/Fade";
 
 import "./index.scss";
 

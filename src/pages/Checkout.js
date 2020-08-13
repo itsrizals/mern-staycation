@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import Fade from "react-reveal/Fade";
 import Header from "parts/Header";
-
 import Button from "elements/Button";
 import Stepper, {
   Numbering,
@@ -46,7 +45,7 @@ export default class Checkout extends Component {
     const { data } = this.state;
 
     const checkout = {
-      duration: 3,
+      duration: 1,
     };
 
     const steps = {
