@@ -99,7 +99,7 @@ export default class Checkout extends Component {
 
               <MainContent data={steps} current={CurrentStep} />
 
-              {CurrentStep === "bookingInformation" && (
+              {CurrentStep === "BookingInformation" && (
                 <Fade>
                   <Controller>
                     {data.firstName !== "" &&
