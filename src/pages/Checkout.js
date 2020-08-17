@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Fade from "react-reveal/Fade";
+
 import Header from "parts/Header";
 import Button from "elements/Button";
 import Stepper, {
@@ -43,7 +44,6 @@ export default class Checkout extends Component {
 
   render() {
     const { data } = this.state;
-
     const checkout = {
       duration: 1,
     };
@@ -62,7 +62,7 @@ export default class Checkout extends Component {
         ),
       },
 
-      payment: {
+      Payment: {
         title: "Payment",
         description: "Kindly follow the instruction below",
         content: (
@@ -75,7 +75,7 @@ export default class Checkout extends Component {
         ),
       },
 
-      completed: {
+      Completed: {
         title: "Yay! Completed",
         description: null,
         content: <Completed />,
@@ -86,7 +86,7 @@ export default class Checkout extends Component {
       <>
         <Header isCentered />
 
-        <Stepper steps={steps}>
+        <Stepper steps={steps} initialStep="payment">
           {(prevStep, nextStep, CurrentStep, steps) => (
             <>
               <Numbering
@@ -132,7 +132,7 @@ export default class Checkout extends Component {
                 </Fade>
               )}
 
-              {CurrentStep === "payment" && (
+              {CurrentStep === "Payment" && (
                 <Fade>
                   <Controller>
                     {data.proofPayment !== "" &&
@@ -164,7 +164,7 @@ export default class Checkout extends Component {
                 </Fade>
               )}
 
-              {CurrentStep === "complited" && (
+              {CurrentStep === "Completed" && (
                 <Controller>
                   <Button
                     className="btn"
