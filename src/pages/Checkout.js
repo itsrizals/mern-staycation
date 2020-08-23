@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Fade from "react-reveal/Fade";
 
 import Header from "parts/Header";
@@ -16,7 +17,7 @@ import Completed from "parts/Checkout/Completed";
 
 import ItemDetails from "json/itemDetails.json";
 
-export default class Checkout extends Component {
+class Checkout extends Component {
   state = {
     data: {
       firstName: "",
@@ -44,9 +45,26 @@ export default class Checkout extends Component {
 
   render() {
     const { data } = this.state;
-    const checkout = {
-      duration: 1,
-    };
+    const { checkout } = this.props;
+
+    if (!checkout)
+      return (
+        <div className="container">
+          <div
+            className="row align-items-center justify-content-center text-center"
+            style={{ height: "100vh" }}
+          >
+            <div className="col-3">
+              Please select a room before!
+              <div>
+                <Button className="btn mt-4" type="link" href="/" isLight>
+                  Back
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      );
 
     const steps = {
       BookingInformation: {
@@ -86,7 +104,7 @@ export default class Checkout extends Component {
       <>
         <Header isCentered />
 
-        <Stepper steps={steps} initialStep="payment">
+        <Stepper steps={steps}>
           {(prevStep, nextStep, CurrentStep, steps) => (
             <>
               <Numbering
@@ -100,68 +118,64 @@ export default class Checkout extends Component {
               <MainContent data={steps} current={CurrentStep} />
 
               {CurrentStep === "BookingInformation" && (
-                <Fade>
-                  <Controller>
-                    {data.firstName !== "" &&
-                      data.lastName !== "" &&
-                      data.email !== "" &&
-                      data.phone !== "" && (
-                        <Fade>
-                          <Button
-                            className="btn mb-3"
-                            type="button"
-                            isBlock
-                            isPrimary
-                            hasShadow
-                            onClick={nextStep}
-                          >
-                            Continue to Book
-                          </Button>
-                        </Fade>
-                      )}
-                    <Button
-                      className="btn"
-                      type="link"
-                      isBlock
-                      isLight
-                      href={`/properties/${ItemDetails._id}`}
-                    >
-                      Cancel
-                    </Button>
-                  </Controller>
-                </Fade>
+                <Controller>
+                  {data.firstName !== "" &&
+                    data.lastName !== "" &&
+                    data.email !== "" &&
+                    data.phone !== "" && (
+                      <Fade>
+                        <Button
+                          className="btn mb-3"
+                          type="button"
+                          isBlock
+                          isPrimary
+                          hasShadow
+                          onClick={nextStep}
+                        >
+                          Continue to Book
+                        </Button>
+                      </Fade>
+                    )}
+                  <Button
+                    className="btn"
+                    type="link"
+                    isBlock
+                    isLight
+                    href={`/properties/${ItemDetails._id}`}
+                  >
+                    Cancel
+                  </Button>
+                </Controller>
               )}
 
               {CurrentStep === "Payment" && (
-                <Fade>
-                  <Controller>
-                    {data.proofPayment !== "" &&
-                      data.bankName !== "" &&
-                      data.bankHolder !== "" && (
-                        <Fade>
-                          <Button
-                            className="btn mb-3"
-                            type="button"
-                            isBlock
-                            isPrimary
-                            hasShadow
-                            onClick={nextStep}
-                          >
-                            Continue to Book
-                          </Button>
-                        </Fade>
-                      )}
-                    <Button
-                      className="btn"
-                      type="link"
-                      isBlock
-                      isLight
-                      href={prevStep}
-                    >
-                      Cancel
-                    </Button>
-                  </Controller>
-                </Fade>
+                <Controller>
+                  {data.proofPayment !== "" &&
+                    data.bankName !== "" &&
+                    data.bankHolder !== "" && (
+                      <Fade>
+                        <Button
+                          className="btn mb-3"
+                          type="button"
+                          isBlock
+                          isPrimary
+                          hasShadow
+                          onClick={nextStep}
+                        >
+                          Continue to Book
+                        </Button>
+                      </Fade>
+                    )}
+                  <Button
+                    className="btn"
+                    type="link"
+                    isBlock
+                    isLight
+                    href={prevStep}
+                  >
+                    Cancel
+                  </Button>
+                </Controller>
               )}
 
               {CurrentStep === "Completed" && (
@@ -185,3 +199,9 @@ export default class Checkout extends Component {
     );
   }
 }
+
+const mapStateToProps = (state) => ({
+  checkout: state.checkout,
+});
+
+export default connect(mapStateToProps)(Checkout);
