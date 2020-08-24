@@ -57,7 +57,12 @@ class Checkout extends Component {
             <div className="col-3">
               Please select a room before!
               <div>
-                <Button className="btn mt-4" type="link" href="/" isLight>
+                <Button
+                  className="btn mt-5"
+                  type="button"
+                  onClick={() => this.props.history.goBack()}
+                  isLight
+                >
                   Back
                 </Button>
               </div>
@@ -67,7 +72,7 @@ class Checkout extends Component {
       );
 
     const steps = {
-      BookingInformation: {
+      bookingInformation: {
         title: "Booking Information",
         description: "Please fill up the blank fields below",
         content: (
@@ -80,7 +85,7 @@ class Checkout extends Component {
         ),
       },
 
-      Payment: {
+      payment: {
         title: "Payment",
         description: "Kindly follow the instruction below",
         content: (
@@ -117,7 +122,7 @@ class Checkout extends Component {
 
               <MainContent data={steps} current={CurrentStep} />
 
-              {CurrentStep === "BookingInformation" && (
+              {CurrentStep === "bookingInformation" && (
                 <Controller>
                   {data.firstName !== "" &&
                     data.lastName !== "" &&
@@ -141,14 +146,14 @@ class Checkout extends Component {
                     type="link"
                     isBlock
                     isLight
-                    href={`/properties/${ItemDetails._id}`}
+                    href={`/properties/${checkout._id}`}
                   >
                     Cancel
                   </Button>
                 </Controller>
               )}
 
-              {CurrentStep === "Payment" && (
+              {CurrentStep === "payment" && (
                 <Controller>
                   {data.proofPayment !== "" &&
                     data.bankName !== "" &&
@@ -168,10 +173,10 @@ class Checkout extends Component {
                     )}
                   <Button
                     className="btn"
-                    type="link"
+                    type="button"
                     isBlock
                     isLight
-                    href={prevStep}
+                    onClick={prevStep}
                   >
                     Cancel
                   </Button>
