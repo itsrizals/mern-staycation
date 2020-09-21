@@ -1,8 +1,10 @@
-import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
-import propTypes from "prop-types";
-import Button from "elements/Button";
-import { InputNumber, InputDate } from "elements/Form";
+import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+
+import propTypes from 'prop-types';
+
+import Button from 'elements/Button';
+import { InputNumber, InputDate } from 'elements/Form';
 
 class BookingForm extends Component {
   constructor(props) {
@@ -13,7 +15,7 @@ class BookingForm extends Component {
         date: {
           startDate: new Date(),
           endDate: new Date(),
-          key: "selection",
+          key: 'selection',
         },
       },
     };
@@ -72,51 +74,52 @@ class BookingForm extends Component {
         endDate: data.date.endDate,
       },
     });
-    this.props.history.push("/checkout");
+    this.props.history.push('/checkout');
   };
 
   render() {
     const { data } = this.state;
     const { itemDetails } = this.props;
+
     return (
-      <div className="card bordered" style={{ padding: "60px 80px" }}>
-        <h4 className="mb-3">Start Booking</h4>
-        <h5 className="h2 text-teal mb-4">
-          ${itemDetails.price}{" "}
-          <span className="text-gray-500 font-weight-light">
+      <div className='card bordered' style={{ padding: '60px 80px' }}>
+        <h4 className='mb-3'>Start Booking</h4>
+        <h5 className='h2 text-teal mb-4'>
+          ${itemDetails.price}{' '}
+          <span className='text-gray-500 font-weight-light'>
             per {itemDetails.unit}
           </span>
         </h5>
 
-        <label htmlFor="duration">How long you'll stay?</label>
+        <label htmlFor='duration'>How long you will stay?</label>
         <InputNumber
           max={30}
-          suffix={" night"}
+          suffix={' night'}
           isSuffixPlural
           onChange={this.updateData}
-          name="duration"
+          name='duration'
           value={data.duration}
         />
 
-        <label htmlFor="date">Pick a date</label>
-        <InputDate onChange={this.updateData} name="date" value={data.date} />
+        <label htmlFor='date'>Pick a date</label>
+        <InputDate onChange={this.updateData} name='date' value={data.date} />
 
         <h6
-          className="text-gray-500 font-weight-light"
+          className='text-gray-500 font-weight-light'
           style={{ marginBottom: 40 }}
         >
-          You will pay{" "}
-          <span className="text-gray-900">
+          You will pay{' '}
+          <span className='text-gray-900'>
             ${itemDetails.price * data.duration} USD
-          </span>{" "}
-          per{" "}
-          <span className="text-gray-900">
+          </span>{' '}
+          per{' '}
+          <span className='text-gray-900'>
             {data.duration} {itemDetails.unit}
           </span>
         </h6>
 
         <Button
-          className="btn"
+          className='btn'
           hasShadow
           isPrimary
           isBlock

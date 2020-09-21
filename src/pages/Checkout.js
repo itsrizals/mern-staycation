@@ -1,32 +1,32 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import Fade from "react-reveal/Fade";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import Fade from 'react-reveal/Fade';
 
-import Header from "parts/Header";
-import Button from "elements/Button";
+import Header from 'parts/Header';
+import Button from 'elements/Button';
 import Stepper, {
   Numbering,
   Meta,
   MainContent,
   Controller,
-} from "elements/Stepper";
+} from 'elements/Stepper';
 
-import BookingInformation from "parts/Checkout/BookingInformation";
-import Payment from "parts/Checkout/Payment";
-import Completed from "parts/Checkout/Completed";
+import BookingInformation from 'parts/Checkout/BookingInformation';
+import Payment from 'parts/Checkout/Payment';
+import Completed from 'parts/Checkout/Completed';
 
-import ItemDetails from "json/itemDetails.json";
+import { submitBooking } from 'store/actions/checkout';
 
 class Checkout extends Component {
   state = {
     data: {
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      proofPayment: "",
-      bankName: "",
-      bankHolder: "",
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      proofPayment: '',
+      bankName: '',
+      bankHolder: '',
     },
   };
 
@@ -43,23 +43,53 @@ class Checkout extends Component {
     window.scroll(0, 0);
   }
 
+  _Submit = (nextStep) => {
+    const { data } = this.state;
+    const { checkout } = this.state;
+    const payload = new FormData();
+
+    payload.append('firstName', data.firstName);
+    payload.append('lastName', data.lastName);
+    payload.append('email', data.email);
+    payload.append('phoneNumber', data.phone);
+    payload.append('itemId', checkout._id);
+    payload.append('duration', checkout.duration);
+    payload.append('bookingStartDate', checkout.startDate);
+    payload.append('bookingEndDate', checkout.endDate);
+    payload.append('accountHolder', data.bankHolder);
+    payload.append('bankFrom', data.bankName);
+    payload.append('image', data.proofPayment[0]);
+    payload.append('bankId', checkout.bankId);
+
+    this.props
+      .submitBooking(payload)
+      .then(() => {
+        nextStep();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   render() {
     const { data } = this.state;
-    const { checkout } = this.props;
+    const { checkout, page } = this.props;
+
+    console.log(page, data);
 
     if (!checkout)
       return (
-        <div className="container">
+        <div className='container'>
           <div
-            className="row align-items-center justify-content-center text-center"
-            style={{ height: "100vh" }}
+            className='row align-items-center justify-content-center text-center'
+            style={{ height: '100vh' }}
           >
-            <div className="col-3">
+            <div className='col-3'>
               Please select a room before!
               <div>
                 <Button
-                  className="btn mt-5"
-                  type="button"
+                  className='btn mt-5'
+                  type='button'
                   onClick={() => this.props.history.goBack()}
                   isLight
                 >
@@ -73,25 +103,25 @@ class Checkout extends Component {
 
     const steps = {
       bookingInformation: {
-        title: "Booking Information",
-        description: "Please fill up the blank fields below",
+        title: 'Booking Information',
+        description: 'Please fill up the blank fields below',
         content: (
           <BookingInformation
             data={data}
             checkout={checkout}
-            ItemDetails={ItemDetails}
+            ItemDetails={page[checkout._id]}
             onChange={this.onChange}
           />
         ),
       },
 
       payment: {
-        title: "Payment",
-        description: "Kindly follow the instruction below",
+        title: 'Payment',
+        description: 'Kindly follow the instruction below',
         content: (
           <Payment
             data={data}
-            ItemDetails={ItemDetails}
+            ItemDetails={page[checkout._id]}
             checkout={checkout}
             onChange={this.onChange}
           />
@@ -99,7 +129,7 @@ class Checkout extends Component {
       },
 
       Completed: {
-        title: "Yay! Completed",
+        title: 'Yay! Completed',
         description: null,
         content: <Completed />,
       },
@@ -122,16 +152,16 @@ class Checkout extends Component {
 
               <MainContent data={steps} current={CurrentStep} />
 
-              {CurrentStep === "bookingInformation" && (
+              {CurrentStep === 'bookingInformation' && (
                 <Controller>
-                  {data.firstName !== "" &&
-                    data.lastName !== "" &&
-                    data.email !== "" &&
-                    data.phone !== "" && (
+                  {data.firstName !== '' &&
+                    data.lastName !== '' &&
+                    data.email !== '' &&
+                    data.phone !== '' && (
                       <Fade>
                         <Button
-                          className="btn mb-3"
-                          type="button"
+                          className='btn mb-3'
+                          type='button'
                           isBlock
                           isPrimary
                           hasShadow
@@ -142,8 +172,8 @@ class Checkout extends Component {
                       </Fade>
                     )}
                   <Button
-                    className="btn"
-                    type="link"
+                    className='btn'
+                    type='link'
                     isBlock
                     isLight
                     href={`/properties/${checkout._id}`}
@@ -153,27 +183,27 @@ class Checkout extends Component {
                 </Controller>
               )}
 
-              {CurrentStep === "payment" && (
+              {CurrentStep === 'payment' && (
                 <Controller>
-                  {data.proofPayment !== "" &&
-                    data.bankName !== "" &&
-                    data.bankHolder !== "" && (
+                  {data.proofPayment !== '' &&
+                    data.bankName !== '' &&
+                    data.bankHolder !== '' && (
                       <Fade>
                         <Button
-                          className="btn mb-3"
-                          type="button"
+                          className='btn mb-3'
+                          type='button'
                           isBlock
                           isPrimary
                           hasShadow
-                          onClick={nextStep}
+                          onClick={() => this._Submit(nextStep)}
                         >
                           Continue to Book
                         </Button>
                       </Fade>
                     )}
                   <Button
-                    className="btn"
-                    type="button"
+                    className='btn'
+                    type='button'
                     isBlock
                     isLight
                     onClick={prevStep}
@@ -183,15 +213,15 @@ class Checkout extends Component {
                 </Controller>
               )}
 
-              {CurrentStep === "Completed" && (
+              {CurrentStep === 'Completed' && (
                 <Controller>
                   <Button
-                    className="btn"
-                    type="link"
+                    className='btn'
+                    type='link'
                     isBlock
                     isPrimary
                     hasShadow
-                    href=""
+                    href=''
                   >
                     Back to Home
                   </Button>
@@ -207,6 +237,7 @@ class Checkout extends Component {
 
 const mapStateToProps = (state) => ({
   checkout: state.checkout,
+  page: state.page,
 });
 
-export default connect(mapStateToProps)(Checkout);
+export default connect(mapStateToProps, { submitBooking })(Checkout);
